@@ -1,0 +1,65 @@
+data_config:
+  data_path: '../Data/HN_test_patients.xlsx'
+
+tumor_rt_parameters:
+  ab_tumor: 10.
+  ab_oar: 3
+  alpha_mean: 0.09
+  alpha_std: 0.03
+  alpha_min: 0.04
+  alpha_max: 0.25
+  lambda_mean: 0.07
+  lambda_std: 0.02
+  lambda_min: 0.02
+  lambda_max: 0.18
+  PSI_mean: 0.85
+  PSI_std: 0.1
+  PSI_min: 0.5
+  PSI_max: 0.99
+  tumor_V0_mean: 15
+  tumor_V0_std: 15
+  tumor_V0_min: 3
+  tumor_V0_max: 65
+  cutoff_response: 76.0
+  total_dose: 60.0
+  crt_fraction_dose: 2.0
+  w_vol_rew: 10
+  w_dose_rew: 2
+  w_reduction_rew: 10
+  terminate_rew: 20
+
+training_config:
+  task: 'RT_env/RTEnv-v1'
+  log_name: '_train_ppo_180_D6a_HN_LRC_60Gy_'
+  training_mode: 'de-escalation'
+  action_mask: False
+  training_num: 20
+  test_num: 20
+  buffer_size: 4000
+  hidden_sizes:
+    - 256
+    - 256
+    - 256
+    - 256
+  lr: 4.462154523747387e-05
+  eps_clip: 0.2
+  vf_coef: 0.7484760978514511
+  ent_coef: 0.0003371659171656291
+  max_grad_norm: 5
+  gae_lambda: 1.0
+  batch_size: 64
+  max_batchsize: 64
+  gamma: 0.9
+  repeat_per_collect: 32
+  epoch: 200
+  step_per_epoch: 6000
+  step_per_collect: 2000
+  logdir: '../Data/frac_log/ppo_env1'
+  device: 'cuda'
+  rew_norm: False
+  norm_adv: False
+  recompute_adv: True
+  dual_clip: 3
+  value_clip: False
+  deterministic_eval: False
+  resume: False
