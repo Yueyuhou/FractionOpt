@@ -21,7 +21,9 @@ Make sure to have "Gymnasium" and "Tianshou" installed, along with the required 
 
 **Configuration**:
 To use the optimization code, please configure tumor and model parameters first.
+
 For model training and validation, set up  tumor and other relevant parameters in a configuration file. An example configuration file, named config_env_HN.yml, is provided in the repository.
+
 For testing specific patients, set up the configuration file and write patients' parameters into an Excel file, including $\alpha$, $\lambda$, PSI and initial tumor volume.
 
 1. **Model training and validation**
@@ -37,5 +39,3 @@ Note: Set training_config['resume'] = True in configuration file before running 
    ```
 
    This will output an optimized dose fractionation plan based on the provided parameters.
-
-```
