@@ -6,12 +6,6 @@ This repository contains code for optimizing fractionation scheme in radiotherap
 This study aims to optimize the
 daily dose fraction based on individual responses to RT, minimizing toxicity while maintaining a low risk of  locoregional control(LRC) failure.
 
-## Features
-
-- **Dose Optimization**: Implements algorithms to optimize the distribution and timing of dose fractions.
-- **User-Friendly Interface**: Provides a straightforward interface for users to input treatment parameters and retrieve optimized results.
-- **Flexible and Customizable**: Allows users to adjust algorithms and settings based on specific treatment requirements.
-
 ## Installation
 
 To use this code, clone the repository to your local machine:
