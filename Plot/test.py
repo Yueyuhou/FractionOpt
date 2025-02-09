@@ -3,11 +3,9 @@ import numpy as np
 import cupy as cp
 import os
 
-# 创建 Pinned Memory Pool
 pinned_memory_pool = cp.cuda.PinnedMemoryPool()
 cp.cuda.set_pinned_memory_allocator(pinned_memory_pool.malloc)
 
-# 定义 CUDA 内核
 generate_product_kernel = cp.ElementwiseKernel(
     'raw T output, raw T input_arrays, raw int32 input_shapes, int32 n_inputs',
     '',
@@ -25,21 +23,12 @@ generate_product_kernel = cp.ElementwiseKernel(
 
 
 def generate_product_gpu(input_arrays, batch_size=10 ** 6):
-    """
-    在 GPU 上生成多个数组的笛卡尔积，并按批次返回结果。
-
-    :param input_arrays: 输入数组列表
-    :param batch_size: 每个批次的大小
-    :return: 生成器，每次返回一个批次的笛卡尔积
-    """
     input_shapes = [len(arr) for arr in input_arrays]
     n_inputs = len(input_arrays)
     total_product = np.prod(input_shapes)
 
-    # 将输入数组展平并合并
     input_arrays_flattened = np.concatenate([arr for arr in input_arrays])
 
-    # 使用 Pinned Memory 传输数据
     input_arrays_pinned = cp.cuda.alloc_pinned_memory(input_arrays_flattened.nbytes)
     input_arrays_pinned[:] = input_arrays_flattened
     input_arrays_gpu = cp.ndarray(input_arrays_flattened.shape, dtype=input_arrays_flattened.dtype,

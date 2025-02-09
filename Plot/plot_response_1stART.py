@@ -61,7 +61,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
         self.path_dict = path_dict
         self.config_info_dict = config_info_dict
 
-    # NOTE: 辅助方法
     @staticmethod
     def model_initialization_env2(data_path, config_info):
         df = read_fraction_scheme_and_write(data_path)
@@ -182,7 +181,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
         g.ax_marg_x.axis('on')
         g.ax_marg_y.axis('on')
 
-        # 设置x轴和y轴的范围相同
         g.ax_joint.set_xlim(min_val, max_val)
         g.ax_joint.set_ylim(min_val, max_val)
 
@@ -251,7 +249,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
 
             j += 1
 
-            # 去掉坐标轴
             # ax.xaxis.set_visible(False)
             # ax.yaxis.set_visible(False)
 
@@ -350,14 +347,12 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
             ax = sns.histplot(data=df, x="prognosis", hue="type_of_cancer", common_norm=False,
                               multiple='dodge', shrink=0.8, binwidth=15, stat='percent', legend=True)
 
-            # 在每个条形上添加文本
             for p in ax.patches:
                 ax.text(x=p.get_x() + p.get_width() / 2,
                         y=p.get_height() + 0.5,
                         s=f'{p.get_height() / 100:.2%}',
                         ha='center')
 
-                # 修改 Y 轴的名称
                 ax.set_ylabel('Percentage of Patients (%)')
                 ax.set_xlabel('Prognosis')
 
@@ -413,35 +408,29 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
         fig, ax1 = plt.subplots()
 
         if mode is None:
-            # 在第一个坐标轴上绘制数据
             ax1.stem(patient_idx[plot_idx], conRT_final_rsp.iloc[plot_idx],
                      linefmt='#7494BC', markerfmt='o',
                      basefmt='k-', label='Conventional RT')
             ax1.set_xlabel('Patient index')  # 设置x轴标签
             ax1.set_ylabel('Relative tumor volume after RT')  # 设置y轴标签
 
-            # 在第二个坐标轴上绘制数据
             ax1.stem(patient_idx[plot_idx], -1 * adaRT_final_rsp[plot_idx],
                      linefmt='#DE9F83', markerfmt='*',
                      basefmt='k-', label='Adaptive RT')
 
             plt.legend(['Conventional RT', 'Adaptive RT'], loc='upper right', bbox_to_anchor=(1, 1.1))
 
-            # 统计 ART 中 response > cutoff 的个数并输出
             self.print_data_description(adaRT_final_rsp, thereshold=cutoff_rsp,
                                         info='ART final response info')
 
-            # 设置 Y轴坐标标签
             max_rsp = conRT_final_rsp.to_numpy().max() * 1.1
             # y_ticks_label_1 = [str(i) for i in np.arange(0, max_rsp+1, 20)]
             # y_ticks_label_1.reverse()
             # y_ticks_label_2 = [str(i) for i in np.arange(0, max_rsp+1, 20)]
 
-            # 设置x/y轴坐标范围
             ax1.set_xlim([-100, len(df.index) + 100])
             ax1.set_ylim([-max_rsp, max_rsp + 1])
             # ax1.set_yticks(np.arange(-max_rsp, max_rsp+1, 20), y_ticks_label_1[:-1] + y_ticks_label_2)
-            # 画一条平行线
             ax1.axhline(y=cutoff_rsp, color='black', linestyle='--', linewidth=1)
             ax1.axhline(y=-1 * cutoff_rsp, color='black', linestyle='--', linewidth=1)
 
@@ -453,8 +442,8 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
             ax1.stem(patient_idx[plot_idx], diff.iloc[plot_idx],
                      linefmt='#7494BC', markerfmt='o',
                      basefmt='k-')  # , label='Conventional RT'
-            ax1.set_xlabel('Patient index')  # 设置x轴标签
-            ax1.set_ylabel(r'Relative tumor volume Difference after RT:($V_{conRT}$-$V_{adaRT}$)/V0')  # 设置y轴标签
+            ax1.set_xlabel('Patient index')
+            ax1.set_ylabel(r'Relative tumor volume Difference after RT:($V_{conRT}$-$V_{adaRT}$)/V0')
 
         if img_save_path is not None:
             save_fig(img_save_path, suffix)
@@ -478,19 +467,16 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
 
         df_plot['prognosis'] = df_plot['prognosis'].map({True: 'good', False: 'bad'})
 
-        # 设置 seaborn 的绘图风格
         with sns.axes_style("white"):
             ax = sns.histplot(data=df_plot, x="prognosis", hue="PlanType", common_norm=False,
                               multiple='dodge', shrink=0.8, binwidth=15, stat='percent', legend=True)
 
-            # 在每个条形上添加文本
             for p in ax.patches:
                 ax.text(x=p.get_x() + p.get_width() / 2,
                         y=p.get_height() + 0.5,
                         s=f'{p.get_height() / 100:.2%}',
                         ha='center')
 
-                # 修改 Y 轴的名称
                 ax.set_ylabel('Percentage of Patients (%)')
                 ax.set_xlabel('Prognosis')
 
@@ -517,29 +503,25 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
 
         # fig, axes = plt.subplots(2, 1)
         #
-        # # 在第一个坐标轴上绘制数据
         # # diff = conRT_ptv_BED.iloc[plot_idx] - adaRT_ptv_BED.iloc[plot_idx]
         # axes[0].stem(patient_idx[plot_idx], df['total_dose'][plot_idx], linefmt='#4E6691', markerfmt='o',
         #              basefmt='-', label='PTV')
-        # axes[0].set_xlabel('Patient index')  # 设置x轴标签
+        # axes[0].set_xlabel('Patient index')
         # axes[0].set_ylabel(r'Total Dose /Gy')
         # axes[0].legend(loc='upper right', bbox_to_anchor=(1.0, 1.25))
         #
-        # # 在第二个坐标轴上绘制数据
         # diff = conRT_oar_BED.iloc[plot_idx] - adaRT_oar_BED.iloc[plot_idx]
         # axes[1].stem(patient_idx[plot_idx], diff, linefmt='#B8474D', markerfmt='*',
         #              basefmt='-', label='OAR')
-        # axes[1].set_xlabel('Patient index')  # 设置x轴标签
+        # axes[1].set_xlabel('Patient index')
         # axes[1].set_ylabel(r'BED$_{conRT}$ - BED$_{perRT}$ /Gy')
         # axes[1].legend(loc='upper right', bbox_to_anchor=(1.0, 1.25))
 
-        # 统计 ART BED 与 CRT 的差异
         self.print_data_description(conRT_ptv_BED - adaRT_ptv_BED, thereshold=0,
                                     info='Delta PTV BED info')
         self.print_data_description(conRT_oar_BED - adaRT_oar_BED, thereshold=0,
                                     info='Delta OAR BED info')
 
-        # # 设置x/y轴坐标范围
         # for ax in axes:
         #     ax.set_xlim([-100, len(df.index) + 100])
         #     ax.spines['top'].set_visible(False), ax.spines['right'].set_visible(False)
@@ -584,7 +566,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
                           c=color, alpha=0.3, label=category + '-benefit group')
         ax_3d.set_title("The Distribution of Patients with Different Dose Benefits \n in the Parameter Space",
                         fontsize=16, fontweight='medium')
-        # 在x_label中加入空格
 
         ax_3d.set_xlabel(r'$\alpha   /Gy^{-1}$', fontsize=14, fontweight='medium')
         ax_3d.set_ylabel(r'$\lambda   /day^{-1}$', fontsize=14, fontweight='medium')
@@ -603,33 +584,27 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
     def SVM_results_5fold_val(self, svm_cls, X_scaled, y):
         kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-        # 初始化列表以存储每折的指标
         accuracy_list = []
         precision_list = []
         recall_list = []
         f1_list = []
 
-        # 手动执行5折交叉验证
         for train_index, test_index in kf.split(X_scaled, y):
             X_train, X_test = X_scaled[train_index], X_scaled[test_index]
             y_train, y_test = y.iloc[train_index], y.iloc[test_index]
 
-            # 在训练集上训练模型
             svm_cls.fit(X_train, y_train)
 
-            # 在测试集上进行预测
             y_pred = svm_cls.predict(X_test)
             trasfer_dict = {"High": 1, "Low": 0}
             y_pred_t = [trasfer_dict[i] for i in y_pred]
             y_true = [trasfer_dict[i] for i in y_test]
 
-            # 计算并存储性能指标
             accuracy_list.append(accuracy_score(y_true, y_pred_t))
             precision_list.append(precision_score(y_true, y_pred_t))
             recall_list.append(recall_score(y_true, y_pred_t))
             f1_list.append(f1_score(y_true, y_pred_t))
 
-        # 计算并输出每个指标的平均值和标准差
         print("Average Accuracy: {:.2f} ± {:.2f}".format(np.mean(accuracy_list), np.std(accuracy_list)))
         print("Average Precision: {:.2f} ± {:.2f}".format(np.mean(precision_list), np.std(precision_list)))
         print("Average Recall: {:.2f} ± {:.2f}".format(np.mean(recall_list), np.std(recall_list)))
@@ -730,18 +705,16 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
                 w = clf.coef_[0]  # 线性SVM的系数
                 b = clf.intercept_[0]  # 截距
 
-                # 打印决策边界的表达式
-                print(f"决策边界的表达式为: {w[0]:.3f} * x1 + {w[1]:.3f} * x2 + {b:.3f} = 0")
+                print(f"The decision boundary equation is: {w[0]:.3f} * x1 + {w[1]:.3f} * x2 + {b:.3f} = 0")
 
                 ax.set_title(f'{fixed_feature_name}={fix_feature_value}', fontsize=16, fontweight='medium')
                 ax.set_xlabel(x_label, fontsize=14, fontweight='medium') # x_label r'$\alpha  /Gy^{-1}$'
                 ax.set_ylabel(y_label, fontsize=14, fontweight='medium')  # '$\lambda  /day^{-1}$
-                # 增大ticks的字号
+
                 ax.tick_params(axis='both', which='major', labelsize=14)
                 if i == 0:  # Only add legend to the first subplot for clarity
                     ax.legend(fontsize=14, loc='lower right')
 
-                # 去除图像右侧和上侧的边框
                 ax.spines['top'].set_visible(False), ax.spines['right'].set_visible(False)
 
         plt.tight_layout()
@@ -786,7 +759,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
                     img_save_path=img_save_path, suffix="SVM_lambda")
 
     def line_plot_response(self, frac_path, config_info, time_span=41, img_save_path=None, suffix=None):
-        # 设置ggplot风格
         # sns.set_style("whitegrid")
         with sns.axes_style("whitegrid"):
             # conRT response
@@ -797,7 +769,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
                                                            is_final_rsp=False)
             adaRT_final_rsp_list = np.asarray(adaRT_final_rsp_list)
 
-            # 将 final_rsp_list 转换为 DataFrame
             df = pd.DataFrame(adaRT_final_rsp_list, columns=list(range(adaRT_final_rsp_list.shape[-1])))
             df['Type'] = 'Personalized de-escalation RT'
 
@@ -805,7 +776,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
             df_2['Type'] = 'Conventional RT'
             df = pd.concat([df, df_2], axis=0)
 
-            # 使用melt函数将数据转换为长格式
             df = df.melt(id_vars='Type', value_vars=list(range(conRT_final_rsp_list.shape[-1])),
                          var_name='Time', value_name='Response')
 
@@ -814,7 +784,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
             ax = sns.lineplot(data=df, x="Time", y="Response", hue="Type", style="Type",
                               errorbar='sd', markers=True, palette=['#4E6691', '#B8474D'],
                               legend='auto', ax=ax)
-            # 改变legend位置到左下角
             ax.legend(loc='lower left', fontsize=14)
 
             plt.axhline(y=config_info['tumor_rt_parameters']['cutoff_response'],
@@ -842,7 +811,6 @@ class ARTResponsePlotEnv2(TumorResponsePlotBase):
         dose_list = np.array(dose_list)
         df = pd.DataFrame(dose_list, columns=list(range(1, time_span, 1)))
 
-        # 使用melt函数将数据转换为长格式
         df = df.melt(value_vars=list(range(1, time_span, 1)),
                      var_name='Time', value_name='Fraction Dose')
 

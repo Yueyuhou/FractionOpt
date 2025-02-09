@@ -60,7 +60,6 @@ def kde_plot_noise_BED_diff(data_dict, img_save_path, suffix='noise_BED_KDE'):
                fontsize=14, fontweight='medium')
 
     plt.xticks(np.arange(-10, 11, 2.5))
-    # 增大刻度字体大小
     plt.tick_params(axis='both', which='major', labelsize=12)
 
     # Update legend labels
@@ -96,7 +95,6 @@ def hist_plot_noise_prognosis(config_info, df_dict, threshold, img_save_path=Non
     noise_levels = ['05', '10', '15']
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
-    # 为整个大图加标题
     fig.suptitle("The Influence of Noise on the Prognosis of the Personalized De-escalation RT Plans",
                  fontsize=20, fontweight='medium')
 
@@ -116,7 +114,6 @@ def hist_plot_noise_prognosis(config_info, df_dict, threshold, img_save_path=Non
             plot_df[f'art_rsp_{noise_level}_noise_old_plan'] = df_noise_old_plan['adaRT_final_response'] <= threshold
             plot_df[f'con_rsp_{noise_level}_noise'] = df_noise['conRT_final_response'] <= threshold
 
-            # 筛选出df_wo_noise['Type' == ‘High’]的索引
             LRC_index = df_wo_noise[df_wo_noise['Type'] == c].index
             art_noise = plot_df[f'art_rsp_{noise_level}_noise'][LRC_index]
             art_noise_old_plan = plot_df[f'art_rsp_{noise_level}_noise_old_plan'][LRC_index]
@@ -149,32 +146,25 @@ def hist_plot_noise_prognosis(config_info, df_dict, threshold, img_save_path=Non
         g.tick_params(axis='y', labelsize=14)
 
         for p in ax.patches:
-            # 获取条形的位置信息
-            x = p.get_x() + p.get_width() / 2  # x位置
-            y = p.get_height()  # 高度
+            x = p.get_x() + p.get_width() / 2
+            y = p.get_height()
             if x < 0.01 and y < 0.01:
                 continue
-            # 在条形上方添加文本
             ax.text(x, y, f'{y:.2f}', ha='center', va='bottom', fontsize=12)
 
-        # 获取当前x轴的刻度
         ax.set_xticks(ax.get_xticks())
         ax.set_xticklabels(["5%", "10%", "15%"])
-        # 设定y轴的范围
         ax.set_ylim(0, 22.5)
 
         ax.set_ylabel('The Rate of Personalized RT Inferior to \n Conventional RT /%',
                       fontsize=14, fontweight='medium')
         ax.set_xlabel('Noise Level', fontsize=14, fontweight='medium')
-        # 增大每个子图的坐标刻度字体大小
         ax.tick_params(axis='both', which='major', labelsize=12)
 
-        # 为每个子图加标题
         ax.set_title(f'Group of {c}-benefit in BED', fontsize=16, fontweight='medium',
                      fontstyle='italic')
         sns.despine(ax=ax)
 
-        # 增加两个子图的间隔
         plt.tight_layout(w_pad=6.)
 
     if img_save_path is None:

@@ -76,7 +76,6 @@ class ImgPloter:
         self.growth_mode = self.config_info['tumor_rt_parameters']['growth_mode']
 
     def plot_tumor_growth(self, v0=None, tau=None, b=None, v_max=None, t_max=None):
-        # 无输入参数时，示意性绘图展示不同模型的肿瘤生长
         if v0 is None:
             v0 = 300
             tau = 50
@@ -226,7 +225,6 @@ if __name__ == '__main__':
     patient_data_path = r'../Data/patient_data_env1_tumor_growth.xlsx'
     img_plotter = ImgPloter(config_path)
 
-    # 无输入参数时，示意性绘图展示不同模型的肿瘤生长
     # img_plotter.plot_tumor_growth()
 
     # initialize paramters

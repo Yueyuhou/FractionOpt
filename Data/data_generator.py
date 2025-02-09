@@ -11,7 +11,7 @@ def generate_dataset(config_info, data_type, opt_mode):
         std_val = config_info['tumor_rt_parameters'][f'{key}_std']
         min_val = config_info['tumor_rt_parameters'][f'{key}_min']
         max_val = config_info['tumor_rt_parameters'][f'{key}_max']
-        # 从正态分布中随机生成一组数
+
         val_list = np.random.normal(loc=mean_val, scale=std_val, size=point_num)
         val_list = val_list.clip(min=min_val, max=max_val)
 
@@ -44,7 +44,7 @@ def generate_dataset(config_info, data_type, opt_mode):
 
     df.to_excel(data_type + '_' + opt_mode + '_patients.xlsx', index=False)
 
-    print("数据已保存到Excel表格中。")
+    print("Finished.")
 
 
 def add_random_noise_2model_para(df, noise_level):
@@ -60,7 +60,7 @@ def add_random_noise_2model_para(df, noise_level):
 
 
 if __name__ == '__main__':
-    #  设置 numpy 随机数种子
+    #  set random seed.
     np.random.seed(1)
 
     # HN_config_path = Path(r"../Utils/config_env2_HN.yml")

@@ -54,15 +54,14 @@ def count_improved_survival_ratio(df, cutoff_value):
     conRT_std = conRT.std()
     print("final response: ")
     print("adaRT_mean, adaRT_std, conRT_mean, conRT_std: ", [adaRT_mean, adaRT_std, conRT_mean, conRT_std])
-    # 执行t检验
-    # 正态性检验
+
     s, p = stats.shapiro(adaRT.values - conRT.values)
     print("Shapiro-Wilk Test: ", s, p)
     t_statistic, p_value = stats.ttest_rel(adaRT.values, conRT.values)
     print("T-Test: ", t_statistic, p_value)
     # s, p = stats.wilcoxon(adaRT.values-conRT.values)
-    # print("Wilcoxon符号秩检验统计量:", s)
-    # print("p值:", p)
+    # print(s)
+    # print(p)
 
     # The fourth quadrant: improved survival rate for adaRT
     condition = (df['adaRT_final_response'] <= cutoff_value) & (df['conRT_final_response'] > cutoff_value)
@@ -90,7 +89,6 @@ def save_fig(img_save_path, suffix=None, patient_idx=None, subfolder=None):
 
 def read_fraction_scheme_and_write(data_path, save_path=None):
     data_path = Path(data_path)
-    # 如果 data_path是.csv文件，那么读取文件
     if data_path.suffix == '.csv':
         df = pd.read_csv(data_path, names=range(200))
         df.dropna(axis=1, how='all', inplace=True)
@@ -167,8 +165,8 @@ class TumorResponsePlotBase:
             ax = sns.lineplot(df, x='Time', y='Volume', c=colors[i], ax=ax)
 
         # 设置x轴和y轴范围从整数开始
-        ax.set_xlim(left=0, right=41)  # 设置x轴从0开始
-        ax.set_ylim(bottom=20, top=100)  # 设置y轴从0开始
+        ax.set_xlim(left=0, right=41)
+        ax.set_ylim(bottom=20, top=100)
 
         sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=min_PSI, vmax=max_PSI))
         sm.set_array([])
@@ -180,7 +178,7 @@ class TumorResponsePlotBase:
         ax.set_title(
             "Tumor Responses to RT with Different PSI Values \n ($\\alpha=0.09/Gy^{-1}$, $\\lambda=0.07/day^{-1}$)",
             pad=20, fontsize=16, fontweight='medium')
-        # 增大坐标轴刻度的字号
+
         ax.tick_params(axis='both', which='major', labelsize=12)
         # ax.set_title("Tumor Responses to RT with Different $\\alpha$ and $\\lambda$ combinations \n (PSI=0.85)",
         #             fontsize=14,
@@ -240,7 +238,7 @@ class TumorResponsePlotBase:
 
         plt.xticks(rotation=30)
         plt.yticks(rotation=30)
-        # 增大坐标轴刻度的字号
+
         ax.tick_params(axis='both', which='major', labelsize=12)
         plt.tight_layout()
 
@@ -261,13 +259,12 @@ class TumorResponsePlotBase:
         PSI_list = get_range(self.config_info, 'PSI', point_num)
         # tumor_V0_list = get_range(self.config_info, 'tumor_V0', point_num)
 
-        # 将4个数组内的数字组合成一个4维数组
+
         # comb_array1, comb_array2, comb_array3, comb_array4 = np.meshgrid(alpha_list, lmd_list, PSI_list, tumor_V0_list)
         comb_array1, comb_array2, comb_array3 = np.meshgrid(alpha_list, lmd_list, PSI_list)
 
         fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
-        # 绘制散点图
         prediction = []
         cutoff_threshold = self.config_info['tumor_rt_parameters']['cutoff_response']
 

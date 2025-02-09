@@ -6,12 +6,6 @@ This repository contains code for optimizing fractionation scheme in radiotherap
 This study aims to optimize the
 daily dose fraction based on individual responses to RT, minimizing toxicity while maintaining a low risk of  locoregional control(LRC) failure.
 
-## Features
-
-- **Dose Optimization**: Implements algorithms to optimize the distribution and timing of dose fractions.
-- **User-Friendly Interface**: Provides a straightforward interface for users to input treatment parameters and retrieve optimized results.
-- **Flexible and Customizable**: Allows users to adjust algorithms and settings based on specific treatment requirements.
-
 ## Installation
 
 To use this code, clone the repository to your local machine:
@@ -26,8 +20,11 @@ Make sure to have "Gymnasium" and "Tianshou" installed, along with the required 
 ## Usage
 
 **Configuration**:
+
 To use the optimization code, please configure tumor and model parameters first.
+
 For model training and validation, set up  tumor and other relevant parameters in a configuration file. An example configuration file, named config_env_HN.yml, is provided in the repository.
+
 For testing specific patients, set up the configuration file and write patients' parameters into an Excel file, including $\alpha$, $\lambda$, PSI and initial tumor volume.
 
 1. **Model training and validation**
@@ -44,4 +41,6 @@ Note: Set training_config['resume'] = True in configuration file before running 
 
    This will output an optimized dose fractionation plan based on the provided parameters.
 
-```
+3. **Visualization**
+   
+TODO

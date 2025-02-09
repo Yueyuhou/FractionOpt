@@ -168,8 +168,6 @@ class RTEnvV1(gym.Env):
             return dose
 
     def max_BED_judge(self, action, dose):
-        # 硬约束： The cumulative BED of adaptive RT muse leq than the conventional RT.
-        # 软约束： cutoff BED
         delivered_OAR_bed, oar_bed_max = self.get_cumulative_BED()
         next_delivered_OAR_bed = delivered_OAR_bed + self.BED(dose*self.OAR_d_ratio)
 
