@@ -33,6 +33,7 @@ For testing specific patients, set up the configuration file and write patients'
    ```
 
 2. **Optimize Dose Fractionation with the specified tumor and PSI model parameters**:
+
 Note: Set training_config['resume'] = True in configuration file before running the code.
 
    ```bash
@@ -43,4 +44,16 @@ Note: Set training_config['resume'] = True in configuration file before running 
 
 3. **Visualization**
    
-TODO
+The code for analysing the impact of model parameters on prognosis and tumor shrinkage under conventional RT can be found in
+Plot/plot_response_base_class.py.
+
+![The impact of model parameters on prognosis and tumor shrinkage under conventional RT](./Result/fig_2a.png)
+![The impact of model parameters on prognosis and tumor shrinkage under conventional RT](./Result/fig_2b.png)
+![The impact of model parameters on prognosis and tumor shrinkage under conventional RT](./Result/fig_2c.png)
+
+Treatment schedules and tumor volume dynamics in personalized de-escalation RT can be visualized by Plot/plot_response_1stART.py.
+
+![Treatment schedules and tumor volume dynamics in personalized de-escalation
+RT.](Result/Vol76_hist_plot_dose_scheme.png)
+![Treatment schedules and tumor volume dynamics in personalized de-escalation
+RT.](Result/Vol76_vol_line_plot.png)

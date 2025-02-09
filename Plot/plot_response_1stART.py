@@ -972,7 +972,7 @@ if __name__ == "__main__":
     model = ARTResponsePlotEnv2(path_dict, config_info_dict)
 
     # model.different_rsp_ratio_comparison(path_dict['save_path'], 'different_rsp_ratio_comparison_v70')
-    # model.plot_HN(path_dict, config_info_dict)
+    model.plot_HN(path_dict, config_info_dict)
 
     model.noise_plot(config_info_dict['HN'], path_dict['noise_path_HN'], path_dict['save_path'])
 
